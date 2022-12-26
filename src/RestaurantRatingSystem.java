@@ -7,40 +7,51 @@ public class RestaurantRatingSystem {
     private List<Restaurant> restaurants;
 
     public RestaurantRatingSystem() {
-        restaurants = loadOutlets();
+        restaurants = loadRestaurants();
 
         // If the list could not be loaded, create a new one
         if (restaurants == null) {
             restaurants = new ArrayList<>();
         }
     }
-
-
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
 
-    public void addRestaurant(Restaurant restaurant) {
+    public void addRestaurant(String name) {
+        Restaurant restaurant= new Restaurant(name);
         this.restaurants.add(restaurant);
     }
-
-      List<Restaurant> loadOutlets() {
-        List<Restaurant> outlets = null;
-        try (FileInputStream fis = new FileInputStream(SAVE_FILE_NAME);
-             ObjectInputStream ois = new ObjectInputStream(fis)) {
-            outlets = (List<Restaurant>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            // Could not load outlets
+    public void addRating(String name,Integer rating) {
+        Restaurant restaurant= getRestaurantByName(name);
+        restaurant.addRating(rating);
+    }
+    public Restaurant getRestaurantByName(String name) {
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getName().equals(name)) {
+                return restaurant;
+            }
         }
-        return outlets;
+        return null;
     }
 
-      void saveOutlets(List<Restaurant> outlets) {
+      List<Restaurant> loadRestaurants() {
+        List<Restaurant> restaurants = null;
+        try (FileInputStream fis = new FileInputStream(SAVE_FILE_NAME);
+             ObjectInputStream ois = new ObjectInputStream(fis)) {
+            restaurants = (List<Restaurant>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            // Could not load restaurants
+        }
+        return restaurants;
+    }
+
+      void saveRestaurants(List<Restaurant> restaurants) {
         try (FileOutputStream fos = new FileOutputStream(SAVE_FILE_NAME);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(outlets);
+            oos.writeObject(restaurants);
         } catch (IOException e) {
-            System.out.println("Error saving outlets: " + e.getMessage());
+            System.out.println("Error saving restaurants: " + e.getMessage());
         }
     }
 }

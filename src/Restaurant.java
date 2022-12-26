@@ -1,17 +1,19 @@
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Restaurant implements Serializable {
     private String name;
-    private int rating;
+    private ArrayList<Integer> ratings;
 
-    public Restaurant(String name, int rating) {
+    public Restaurant(String name) {
         this.name = name;
-        this.rating = rating;
+        this.ratings = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return  name + "   |   " + rating ;
+        return  name + "   |   " + getAverageRating() ;
     }
 
     public String getName() {
@@ -22,11 +24,22 @@ public class Restaurant implements Serializable {
         this.name = name;
     }
 
-    public int getRating() {
-        return rating;
+    public List<Integer> getRatings() {
+        return ratings;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void addRating(Integer rating) {
+        ratings.add(rating);
+    }
+
+    public double getAverageRating() {
+        if (ratings.size() == 0) {
+            return 0;
+        }
+        double sum = 0;
+        for (Integer rating : ratings) {
+            sum += rating;
+        }
+        return sum / ratings.size();
     }
 }
