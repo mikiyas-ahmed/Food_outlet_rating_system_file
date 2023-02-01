@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class RestaurantRatingSystemConsoleUI {
     public static void main(String[] args)  {
+        mainMenu();
+    }
+    static void mainMenu(){
         Scanner scanner = new Scanner(System.in);
         RestaurantRatingSystem restaurantRating= new RestaurantRatingSystem();
         // Main loop
@@ -14,34 +17,48 @@ public class RestaurantRatingSystemConsoleUI {
 
             int choice = scanner.nextInt();
             if (choice == 1) {
-
-                System.out.print("\nEnter Restaurant name: ");
-                scanner.nextLine();
-                String name= scanner.nextLine();
-                restaurantRating.addRestaurant(name);
+                addRestaurantMenu(scanner,restaurantRating);
             } else if (choice == 2) {
-                System.out.println("\nRestaurant name   | Rating");
-                for (Restaurant outlet : restaurantRating.getRestaurants()) {
-                    System.out.println(outlet);
-                }
-                System.out.print("\nEnter Restaurant name: ");
-                scanner.nextLine();
-                String name= scanner.nextLine();
-                System.out.print("Enter rating (1-5): ");
-                int rating = scanner.nextInt();
-                restaurantRating.addRating(name,rating);
+                reviewRestaurantMenu(scanner,restaurantRating);
             } else if (choice == 3) {
-                System.out.println("\nRestaurant name   | Rating");
-                for (Restaurant outlet : restaurantRating.getRestaurants()) {
-                    System.out.println(outlet);
-                }
-                System.out.println("press enter key to continue");
-                scanner.nextLine();
-                scanner.nextLine();
+                printRestaurantMenu(scanner,restaurantRating);
             } else if (choice == 4) {
-                restaurantRating.saveRestaurants(restaurantRating.getRestaurants());
+                saveAndExitRestaurantMenu(restaurantRating);
                 break;
             }
+            else  {
+                System.out.println("\nInvalid input try again");
+            }
         }
+    }
+     static void addRestaurantMenu(Scanner scanner, RestaurantRatingSystem restaurantRating){
+         System.out.print("\nEnter Restaurant name: ");
+         scanner.nextLine();
+         String name= scanner.nextLine();
+         restaurantRating.addRestaurant(name);
+     }
+    static void reviewRestaurantMenu(Scanner scanner, RestaurantRatingSystem restaurantRating){
+        System.out.println("\nRestaurant name   | Rating");
+        for (Restaurant outlet : restaurantRating.getRestaurants()) {
+            System.out.println(outlet);
+        }
+        System.out.print("\nEnter Restaurant name: ");
+        scanner.nextLine();
+        String name= scanner.nextLine();
+        System.out.print("Enter rating (1-5): ");
+        int rating = scanner.nextInt();
+        restaurantRating.addRating(name,rating);
+    }
+    static void printRestaurantMenu(Scanner scanner, RestaurantRatingSystem restaurantRating){
+        System.out.println("\nRestaurant name   | Rating");
+        for (Restaurant outlet : restaurantRating.getRestaurants()) {
+            System.out.println(outlet);
+        }
+        System.out.println("press enter key to continue");
+        scanner.nextLine();
+        scanner.nextLine();
+    }
+    static void saveAndExitRestaurantMenu( RestaurantRatingSystem restaurantRating){
+        restaurantRating.saveRestaurants(restaurantRating.getRestaurants());
     }
 }
